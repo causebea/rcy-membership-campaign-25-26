@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Your Committee Result</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #add8e6;
+      font-family: 'Press Start 2P', monospace;
+      color: #1a1a1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+      margin: 0;
+    }
+
+    .result-card {
+      background-color: #ffffff;
+      border: 5px solid #e60012;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 14px;
+      color: #e60012;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-size: 18px;
+      color: #0097e6;
+      margin: 20px 0;
+    }
+
+    p {
+      font-size: 12px;
+      margin: 8px 0;
+    }
+
+    .btn {
+      margin-top: 25px;
+      padding: 12px 25px;
+      background-color: #ffd700;
+      border: 3px solid #a0522d;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #ffcc00;
+    }
+  </style>
+</head>
+<body>
+  <div class="result-card" id="result-box">
+    <!-- Result content gets injected here -->
+  </div>
+
+  <script>
+    function getParams() {
+      const params = {};
+      location.search.slice(1).split('&').forEach(pair => {
+        const [key, value] = pair.split('=');
+        params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+      });
+      return params;
+    }
+
+    function getTopCommittee(answers) {
+      const counts = {};
+      for (const ans of answers) {
+        counts[ans] = (counts[ans] || 0) + 1;
+      }
+      return Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+    }
+
+    const { name, answers } = getParams();
+    const userAnswers = answers.split(',');
+    const committee = getTopCommittee(userAnswers);
+    const capitalizedName = name.toUpperCase();
+
+    const resultCard = document.getElementById('result-box');
+    resultCard.innerHTML = `
+      <h2>IT'S-A YOU, ${capitalizedName}!</h2>
+      <p>Your Super Mario committee match is:</p>
+      <h3>🎯 ${committee.toUpperCase()} COMMITTEE</h3>
+      <p>Thanks for playing the quiz! Share your result with your friends.</p>
+      <button class="btn" onclick="window.location.href='index.html'">↩ RESTART QUIZ</button>
+    `;
+  </script>
+</body>
+</html>

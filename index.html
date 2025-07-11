@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Super Mario Committee Quiz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #add8e6;
+      font-family: 'Press Start 2P', monospace;
+      text-align: center;
+      color: #333;
+      padding: 20px;
+    }
+
+    .step {
+      display: none;
+    }
+
+    .step.active {
+      display: block;
+    }
+
+    .quiz-container {
+      background-color: #ffffff;
+      border: 5px solid #e60012;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 700px;
+      margin: auto;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    .logo {
+      display: block;
+      margin: 0 auto 10px;
+      width: 120px;
+      height: auto;
+      background-color: #fff;
+      padding: 5px;
+    }
+
+    h2 {
+      font-size: 16px;
+      color: #e60012;
+      margin-bottom: 20px;
+    }
+
+    .option {
+      background-color: #ffd700;
+      border: 3px solid #a0522d;
+      padding: 15px;
+      margin: 10px auto;
+      border-radius: 15px;
+      display: block;
+      width: 80%;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .option:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+    }
+
+    input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 80%;
+      border: 2px solid #0097e6;
+      border-radius: 10px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #e60012;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background-color: #ff5733;
+    }
+
+    #backBtn {
+      background-color: #0097e6;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 10px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 15px;
+      color: white;
+    }
+
+    #backBtn:hover {
+      background-color: #005f9e;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container" id="quiz">
+    <img src="https://i.imgur.com/XyidjzG.png" alt="Quiz Logo" class="logo" />
+
+    <div class="step active" id="step-0">
+      <h2>Hi Volunteer! <br> Which RCY committee suits you the most? </h2>
+      <input type="text" id="name" placeholder="Your Name" required /><br />
+      <input type="email" id="email" placeholder="Your Email" required /><br />
+      <input type="text" id="school" placeholder="Your School" required /><br />
+      <button onclick="next()">Start Quiz</button>
+    </div>
+
+    <div class="step" id="step-1">
+      <h2>1. A new challenge appears — what’s your first move?</h2>
+      <div class="option" onclick="select('Management - Secretariat')">Rally the team and make a plan</div>
+      <div class="option" onclick="select('Finance')">Figure out the numbers and logistics</div>
+      <div class="option" onclick="select('PR')">Make it look awesome and post it!</div>
+      <div class="option" onclick="select('Management - Physicals')">Jump in and fix things with your hands</div>
+    </div>
+
+    <div class="step" id="step-2">
+      <h2>2. Which Mario power-up do you want the most?</h2>
+      <div class="option" onclick="select('Management - Physicals')">Super Mushroom</div>
+      <div class="option" onclick="select('Finance')">Fire Flower</div>
+      <div class="option" onclick="select('PR')">Super Star</div>
+      <div class="option" onclick="select('Management - Secretariat')">Propeller Mushroom</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <h2>3. Your group role is:</h2>
+      <div class="option" onclick="select('PR')">Decorate slides and write captions</div>
+      <div class="option" onclick="select('Finance')">Handle the budget/resources</div>
+      <div class="option" onclick="select('Management - Secretariat')">Coordinate deadlines</div>
+      <div class="option" onclick="select('Management - Physicals')">Move chairs and set up</div>
+    </div>
+
+    <div class="step" id="step-4">
+      <h2>4. Pick a Mario Kart track</h2>
+      <div class="option" onclick="select('PR')">Rainbow Road</div>
+      <div class="option" onclick="select('Management - Secretariat')">Toad's Turnpike</div>
+      <div class="option" onclick="select('Management - Physicals')">Wario Stadium</div>
+      <div class="option" onclick="select('Finance')">Yoshi Valley</div>
+    </div>
+
+    <div class="step" id="step-5">
+      <h2>5. What’s your strength during events?</h2>
+      <div class="option" onclick="select('PR')">Hype and visuals</div>
+      <div class="option" onclick="select('Finance')">Tracking funds</div>
+      <div class="option" onclick="select('Management - Secretariat')">Attendance and follow-up</div>
+      <div class="option" onclick="select('Management - Physicals')">Lifting, fixing, arranging</div>
+    </div>
+
+    <div class="step" id="step-6">
+      <h2>6. Your favorite hobby is:</h2>
+      <div class="option" onclick="select('Management - Physicals')">Sports or outdoor activities</div>
+      <div class="option" onclick="select('Finance')">Collecting or managing things</div>
+      <div class="option" onclick="select('PR')">Creative arts or social media</div>
+      <div class="option" onclick="select('Management - Secretariat')">Organizing events or planning</div>
+    </div>
+
+    <div class="step" id="step-7">
+      <h2>7. Which Mario character do you relate to the most?</h2>
+      <div class="option" onclick="select('Management - Secretariat')">Mario</div>
+      <div class="option" onclick="select('Management - Physicals')">Luigi</div>
+      <div class="option" onclick="select('PR')">Princess Peach</div>
+      <div class="option" onclick="select('Finance')">Yoshi</div>
+    </div>
+
+    <!-- Back Button -->
+    <button id="backBtn" style="display:none;" onclick="goBack()">⬅ Back</button>
+  </div>
+
+  <script>
+    let step = 0;
+    let answers = [];
+
+    function showStep(i) {
+      const steps = document.querySelectorAll(".step");
+      steps.forEach((stepEl, idx) => {
+        stepEl.classList.toggle("active", idx === i);
+      });
+      document.getElementById("backBtn").style.display = i === 0 ? "none" : "inline-block";
+    }
+
+    function next() {
+      if (step === 0) {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const school = document.getElementById("school").value.trim();
+        if (!name || !email || !school) {
+          alert("Please fill out all fields!");
+          return;
+        }
+      }
+      step++;
+      showStep(step);
+    }
+
+    function select(choice) {
+      answers.push(choice);
+      if (step < 7) {
+        step++;
+        showStep(step);
+      } else {
+        const name = encodeURIComponent(document.getElementById("name").value);
+        const answerStr = encodeURIComponent(answers.join(","));
+        window.location.href = `result.html?name=${name}&answers=${answerStr}`;
+      }
+    }
+
+    function goBack() {
+      if (step > 0) {
+        step--;
+        answers.pop();
+        showStep(step);
+      }
+    }
+  </script>
+</body>
+</html>
