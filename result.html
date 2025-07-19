@@ -134,10 +134,10 @@
       try {
         const canvas = await html2canvas(card, { backgroundColor: null, scale: 2 });
         const link = document.createElement('a');
-        link.download = 'committee-result.png';
+        link.download = 'ceu-rcy-committee-result.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
-        statusMsg.textContent = "Image downloaded ✓";
+        statusMsg.textContent = "Image downloaded ✓ Share it to Facebook and Instagram Stories";
       } catch (e) {
         console.error(e);
         statusMsg.textContent = "Failed to generate image.";
