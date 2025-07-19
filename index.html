@@ -63,6 +63,32 @@
       transform: translateY(-4px);
       box-shadow: 0 5px 10px rgba(0,0,0,0.3);
     }
+	
+	.option img {
+	  display: block;
+	  margin: 0 auto 8px;
+	  border-radius: 12px;lll
+	  object-fit: cover;
+	}
+	
+	.powerup-img {
+	  width: 120px;
+	  height: 120px;
+	}
+
+	.kart-img {
+	  width: 240px;
+	  height: 120px;
+	}
+	
+	.circle-img {
+	  width: 120px;
+	  height: 120px;
+	  object-fit: cover;
+	  display: block;
+	  margin: 0 auto 8px;
+	}
+
 
     input {
       padding: 10px;
@@ -129,13 +155,27 @@
       <div class="option" onclick="select('Management - Physicals')">Jump in and fix things with your hands</div>
     </div>
 
-    <div class="step" id="step-2">
-      <h2>2. Which Mario power-up do you want the most?</h2>
-      <div class="option" onclick="select('Management - Physicals')">Super Mushroom</div>
-      <div class="option" onclick="select('Finance')">Fire Flower</div>
-      <div class="option" onclick="select('PR')">Super Star</div>
-      <div class="option" onclick="select('Management - Secretariat')">Propeller Mushroom</div>
-    </div>
+	<div class="step" id="step-2">
+	  <h2>2. Which Mario power-up do you want the most?</h2>
+	  <div class="option" onclick="select('Management - Physicals')">
+		<img src="https://i.imgur.com/9QSnWkN.png" class="powerup-img" alt="Super Mushroom" />
+		<br>Super Mushroom
+	  </div>
+	  <div class="option" onclick="select('Finance')">
+		<img src="https://imgur.com/5LhtMTC.png" class="powerup-img" alt="Fire Flower" />
+		<br>Fire Flower
+	  </div>
+	  <div class="option" onclick="select('PR')">
+		<img src="https://imgur.com/RSFG1NC.png" class="powerup-img" alt="Super Star" />
+		<br>Super Star
+	  </div>
+	  <div class="option" onclick="select('Management - Secretariat')">
+		<img src="https://imgur.com/5Rl9wRP.png" class="powerup-img" alt="Propeller Mushroom" />
+		<br>Propeller Mushroom
+	  </div>
+	</div>
+
+
 
     <div class="step" id="step-3">
       <h2>3. Your group role is:</h2>
@@ -145,13 +185,27 @@
       <div class="option" onclick="select('Management - Physicals')">Move chairs and set up</div>
     </div>
 
-    <div class="step" id="step-4">
-      <h2>4. Pick a Mario Kart track</h2>
-      <div class="option" onclick="select('PR')">Rainbow Road</div>
-      <div class="option" onclick="select('Management - Secretariat')">Toad's Turnpike</div>
-      <div class="option" onclick="select('Management - Physicals')">Wario Stadium</div>
-      <div class="option" onclick="select('Finance')">Yoshi Valley</div>
-    </div>
+	<div class="step" id="step-4">
+	  <h2>4. Pick a Mario Kart track</h2>
+	  <div class="option" onclick="select('PR')">
+		<img src="https://i.imgur.com/miGKPAY.png" class="kart-img" alt="Rainbow Road" />
+		Rainbow Road
+	  </div>
+	  <div class="option" onclick="select('Management - Secretariat')">
+		<img src="https://imgur.com/nQq2TnO.png" class="kart-img" alt="Toad's Turnpike" />
+		Toad's Turnpike
+	  </div>
+	  <div class="option" onclick="select('Management - Physicals')">
+		<img src="https://imgur.com/jQw4Fnv.png" class="kart-img" alt="Wario Stadium" />
+		Wario Stadium
+	  </div>
+	  <div class="option" onclick="select('Finance')">
+		<img src="https://imgur.com/QBGAPbh.png" class="kart-img" alt="Yoshi Valley" />
+		Yoshi Valley
+	  </div>
+	</div>
+
+
 
     <div class="step" id="step-5">
       <h2>5. What’s your strength during events?</h2>
@@ -169,13 +223,26 @@
       <div class="option" onclick="select('Management - Secretariat')">Organizing events or planning</div>
     </div>
 
-    <div class="step" id="step-7">
-      <h2>7. Which Mario character do you relate to the most?</h2>
-      <div class="option" onclick="select('Management - Secretariat')">Mario</div>
-      <div class="option" onclick="select('Management - Physicals')">Luigi</div>
-      <div class="option" onclick="select('PR')">Princess Peach</div>
-      <div class="option" onclick="select('Finance')">Yoshi</div>
-    </div>
+	<div class="step" id="step-7">
+	  <h2>7. Which Mario character do you relate to the most?</h2>
+	  <div class="option" onclick="select('Management - Secretariat')">
+		<img src="https://imgur.com/C3yEvcS.png" alt="Mario" class="circle-img" />
+		<br>Mario
+	  </div>
+	  <div class="option" onclick="select('Management - Physicals')">
+		<img src="https://imgur.com/nmIWymE.png" alt="Luigi" class="circle-img" />
+		<br>Luigi
+	  </div>
+	  <div class="option" onclick="select('PR')">
+		<img src="https://imgur.com/GySbXYo.png" alt="Princess Peach" class="circle-img" />
+		<br>Princess Peach
+	  </div>
+	  <div class="option" onclick="select('Finance')">
+		<img src="https://imgur.com/XYtxR24.png" alt="Yoshi" class="circle-img" />
+		<br>Yoshi
+	  </div>
+	</div>
+
 
     <!-- Back Button -->
     <button id="backBtn" style="display:none;" onclick="goBack()">⬅ Back</button>

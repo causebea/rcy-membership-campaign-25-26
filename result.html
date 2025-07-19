@@ -1,103 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Your Committee Result</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background-color: #add8e6;
-      font-family: 'Press Start 2P', monospace;
-      color: #1a1a1a;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      padding: 20px;
-      margin: 0;
-    }
-
-    .result-card {
-      background-color: #ffffff;
-      border: 5px solid #e60012;
-      border-radius: 20px;
-      padding: 30px;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-      text-align: center;
-    }
-
-    h2 {
-      font-size: 14px;
-      color: #e60012;
-      margin-bottom: 20px;
-    }
-
-    h3 {
-      font-size: 18px;
-      color: #0097e6;
-      margin: 20px 0;
-    }
-
-    p {
-      font-size: 12px;
-      margin: 8px 0;
-    }
-
-    .btn {
-      margin-top: 25px;
-      padding: 12px 25px;
-      background-color: #ffd700;
-      border: 3px solid #a0522d;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 10px;
-      cursor: pointer;
-      border-radius: 10px;
-      transition: background 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #ffcc00;
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>Your Committee Result</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --mario-red:#e60012; --coin-yellow:#ffd700; --brick-brown:#a0522d;
+    --cloud-white:#ffffff; --sky-blue:#add8e6;
+  }
+  body {
+    background:var(--sky-blue);
+    font-family:'Press Start 2P',monospace;
+    margin:0; padding:20px;
+    display:flex; align-items:center; justify-content:center;
+    min-height:100vh; color:#333; text-align:center;
+  }
+  .result-wrapper {
+    background:var(--cloud-white); border:5px solid var(--mario-red);
+    border-radius:24px; padding:30px 25px 35px;
+    max-width:640px; width:100%; box-shadow:0 10px 22px rgba(0,0,0,.25);
+    position:relative;
+  }
+  h2 { margin:0 0 14px; font-size:18px; color:var(--mario-red); line-height:1.3; }
+  p { font-size:12px; line-height:1.5; margin:6px 0 10px; }
+  .result-image-box {
+    background:linear-gradient(#fffbe0,#ffe590);
+    padding:15px 15px 18px; border:4px solid var(--coin-yellow);
+    border-radius:20px; box-shadow:0 4px 0 #d3ab00, 0 8px 16px rgba(0,0,0,.2);
+    position:relative; margin-top:8px;
+  }
+  .result-image-box::before {
+    content:"RESULT"; position:absolute; top:-11px; left:50%; transform:translateX(-50%);
+    background:var(--mario-red); color:#fff; font-size:10px; padding:4px 10px 5px;
+    border-radius:12px; box-shadow:0 2px 0 #860009; letter-spacing:1px;
+  }
+  .committee-img {
+    width:320px; max-width:95%; height:auto; display:block;
+    margin:5px auto 8px; border-radius:16px; border:3px solid var(--brick-brown);
+    background:#fff; padding:6px; box-shadow:0 4px 0 #7b3718;
+  }
+  .buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-top:26px; }
+  .btn {
+    background:var(--mario-red); color:#fff; border:none;
+    padding:14px 18px; font-family:'Press Start 2P',monospace; font-size:11px;
+    border-radius:14px; cursor:pointer; min-width:180px;
+    box-shadow:0 5px 0 #860009, 0 10px 18px rgba(0,0,0,.25);
+    transition:transform .15s, box-shadow .15s, background .3s;
+  }
+  .btn:hover { background:#ff5733; }
+  .btn:active { transform:translateY(3px); box-shadow:0 2px 0 #860009, 0 6px 12px rgba(0,0,0,.3); }
+  #statusMsg { font-size:10px; margin-top:14px; min-height:14px; color:#0097e6; white-space:pre-wrap; }
+  @media (max-width:520px){
+    .result-wrapper{padding:25px 15px 30px;}
+    h2{font-size:16px;}
+    .committee-img{width:260px;}
+    .btn{font-size:10px;padding:12px 14px;min-width:150px;}
+  }
+</style>
 </head>
 <body>
-  <div class="result-card" id="result-box">
-    <!-- Result content gets injected here -->
+  <div class="result-wrapper" id="resultBox">
+    <h2>Loading Result...</h2>
+    <p>Please wait a moment.</p>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     function getParams() {
       const params = {};
-      location.search.slice(1).split('&').forEach(pair => {
-        const [key, value] = pair.split('=');
-        params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+      const query = window.location.search.substring(1);
+      if (!query) return params;
+      query.split("&").forEach(pair => {
+        const [k, v] = pair.split("=");
+        params[decodeURIComponent(k)] = decodeURIComponent(v || "");
       });
       return params;
     }
 
-    function getTopCommittee(answers) {
-      const counts = {};
-      for (const ans of answers) {
-        counts[ans] = (counts[ans] || 0) + 1;
+    function findTopCommittee(answerArray) {
+      const tally = {};
+      answerArray.forEach(a => { if (!a) return; tally[a] = (tally[a] || 0) + 1; });
+      let top = null, max = -1;
+      for (const key in tally) {
+        if (tally[key] > max) { max = tally[key]; top = key; }
       }
-      return Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+      return top;
     }
 
-    const { name, answers } = getParams();
-    const userAnswers = answers.split(',');
-    const committee = getTopCommittee(userAnswers);
-    const capitalizedName = name.toUpperCase();
+    const params = getParams();
+    const rawName = params.name ? params.name.trim() : "Player";
+    const answers = params.answers ? params.answers.split(",") : [];
 
-    const resultCard = document.getElementById('result-box');
-    resultCard.innerHTML = `
-      <h2>IT'S-A YOU, ${capitalizedName}!</h2>
-      <p>Your Super Mario committee match is:</p>
-      <h3>🎯 ${committee.toUpperCase()} COMMITTEE</h3>
-      <p>Thanks for playing the quiz! Share your result with your friends.</p>
-      <button class="btn" onclick="window.location.href='index.html'">↩ RESTART QUIZ</button>
-    `;
+    const committeeImages = {
+      "Finance": "images/finance.png",
+      "Management - Physicals": "images/physicals.png",
+      "Management - Secretariat": "images/secretariat.png",
+      "PR": "images/pr.png"
+    };
+
+    const committee = findTopCommittee(answers);
+    const resultBox = document.getElementById("resultBox");
+
+    if (!committee || !committeeImages[committee]) {
+      resultBox.innerHTML = `
+        <h2>Oops!</h2>
+        <p>We couldn't determine a committee.<br> Please retake the quiz.</p>
+        <div class="buttons">
+          <button class="btn" onclick="location.href='index.html'">↩ Restart</button>
+        </div>
+      `;
+    } else {
+      resultBox.innerHTML = `
+        <h2>IT'S-A YOU, ${rawName.toUpperCase()}!</h2>
+        <p>Your Super Mario committee match is:</p>
+        <div class="result-image-box" id="resultCard">
+          <img src="${committeeImages[committee]}" alt="${committee} Committee" class="committee-img" />
+        </div>
+        <div class="buttons">
+          <button class="btn" onclick="location.href='index.html'">↩ PLAY AGAIN</button>
+          <button class="btn" id="downloadBtn">⬇ DOWNLOAD & SHARE</button>
+        </div>
+        <div id="statusMsg"></div>
+      `;
+      document.getElementById('downloadBtn').addEventListener('click', downloadResult);
+    }
+
+    async function downloadResult() {
+      const card = document.getElementById('resultCard');
+      const statusMsg = document.getElementById('statusMsg');
+      statusMsg.textContent = "Generating image...";
+      try {
+        const canvas = await html2canvas(card, { backgroundColor: null, scale: 2 });
+        const link = document.createElement('a');
+        link.download = 'committee-result.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        statusMsg.textContent = "Image downloaded ✓";
+      } catch (e) {
+        console.error(e);
+        statusMsg.textContent = "Failed to generate image.";
+      }
+    }
   </script>
 </body>
 </html>
