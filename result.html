@@ -1,148 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Your Committee Result</title>
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"/>
-<style>
-  :root {
-    --mario-red:#e60012; --coin-yellow:#ffd700; --brick-brown:#a0522d;
-    --cloud-white:#ffffff; --sky-blue:#add8e6;
-  }
-  body {
-    background:var(--sky-blue);
-    font-family:'Press Start 2P',monospace;
-    margin:0; padding:20px;
-    display:flex; align-items:center; justify-content:center;
-    min-height:100vh; color:#333; text-align:center;
-  }
-  .result-wrapper {
-    background:var(--cloud-white); border:5px solid var(--mario-red);
-    border-radius:24px; padding:30px 25px 35px;
-    max-width:640px; width:100%; box-shadow:0 10px 22px rgba(0,0,0,.25);
-    position:relative;
-  }
-  h2 { margin:0 0 14px; font-size:18px; color:var(--mario-red); line-height:1.3; }
-  p { font-size:12px; line-height:1.5; margin:6px 0 10px; }
-  .result-image-box {
-    background:linear-gradient(#fffbe0,#ffe590);
-    padding:15px 15px 18px; border:4px solid var(--coin-yellow);
-    border-radius:20px; box-shadow:0 4px 0 #d3ab00, 0 8px 16px rgba(0,0,0,.2);
-    position:relative; margin-top:8px;
-  }
-  .result-image-box::before {
-    content:"RESULT"; position:absolute; top:-11px; left:50%; transform:translateX(-50%);
-    background:var(--mario-red); color:#fff; font-size:10px; padding:4px 10px 5px;
-    border-radius:12px; box-shadow:0 2px 0 #860009; letter-spacing:1px;
-  }
-  .committee-img {
-    width:320px; max-width:95%; height:auto; display:block;
-    margin:5px auto 8px; border-radius:16px; border:3px solid var(--brick-brown);
-    background:#fff; padding:6px; box-shadow:0 4px 0 #7b3718;
-  }
-  .buttons { display:flex; flex-wrap:wrap; justify-content:center; gap:14px; margin-top:26px; }
-  .btn {
-    background:var(--mario-red); color:#fff; border:none;
-    padding:14px 18px; font-family:'Press Start 2P',monospace; font-size:11px;
-    border-radius:14px; cursor:pointer; min-width:180px;
-    box-shadow:0 5px 0 #860009, 0 10px 18px rgba(0,0,0,.25);
-    transition:transform .15s, box-shadow .15s, background .3s;
-  }
-  .btn:hover { background:#ff5733; }
-  .btn:active { transform:translateY(3px); box-shadow:0 2px 0 #860009, 0 6px 12px rgba(0,0,0,.3); }
-  #statusMsg { font-size:10px; margin-top:14px; min-height:14px; color:#0097e6; white-space:pre-wrap; }
-  @media (max-width:520px){
-    .result-wrapper{padding:25px 15px 30px;}
-    h2{font-size:16px;}
-    .committee-img{width:260px;}
-    .btn{font-size:10px;padding:12px 14px;min-width:150px;}
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz Result</title>
+  <style>
+    body {
+      font-family: 'Press Start 2P', monospace, Arial, sans-serif;
+      background: #0074D9; /* Mario blue */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+    }
+    #result-card {
+      background: #fff;
+      border: 6px solid #e60012; /* Mario red */
+      border-radius: 20px;
+      max-width: 420px;
+      padding: 30px 25px 20px;
+      text-align: center;
+      box-shadow: 0 0 25px #e60012cc;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    h2, p, h3 {
+      margin: 0;
+      user-select: none;
+    }
+    h2 {
+      color: #e60012;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+    }
+    p {
+      font-size: 0.9rem;
+      color: #333;
+      margin-top: 8px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    h3 {
+      color: #0074d9;
+      font-size: 1.7rem;
+      margin: 5px 0 15px;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px #e60012;
+    }
+    #result-card img {
+      width: 280px;
+      height: auto;
+      border-radius: 15px;
+      border: 5px solid #0074d9; /* blue border */
+      background: #fff;
+      margin: 0 auto;
+      user-select: none;
+      image-rendering: pixelated;
+    }
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 10px;
+    }
+    button {
+      background: #e60012; /* Mario red */
+      border: 3px solid #99000a;
+      border-radius: 0;
+      padding: 14px 28px;
+      font-weight: bold;
+      font-family: 'Press Start 2P', monospace, Arial, sans-serif;
+      cursor: pointer;
+      color: white;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      box-shadow:
+        4px 4px 0 #99000a,
+        8px 8px 0 #cc0000;
+      transition: background 0.2s ease;
+      user-select: none;
+      /* pixelated font smoothing off */
+      -webkit-font-smoothing: none;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    button:hover {
+      background: #b8000f;
+    }
+    button:active {
+      box-shadow: 2px 2px 0 #99000a;
+      transform: translate(2px, 2px);
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <div class="result-wrapper" id="resultBox">
-    <h2>Loading Result...</h2>
-    <p>Please wait a moment.</p>
+  <div id="result-card">
+    <!-- content populated by JS -->
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
+    const images = {
+      "Finance": "finance.png",
+      "Management - Physicals": "physicals.png",
+      "Management - Secretariat": "secretariat.png",
+      "PR": "pr.png"
+    };
+
     function getParams() {
       const params = {};
-      const query = window.location.search.substring(1);
-      if (!query) return params;
-      query.split("&").forEach(pair => {
-        const [k, v] = pair.split("=");
-        params[decodeURIComponent(k)] = decodeURIComponent(v || "");
+      location.search.slice(1).split('&').forEach(pair => {
+        const [key, value] = pair.split('=');
+        params[key] = decodeURIComponent(value || '');
       });
       return params;
     }
 
-    function findTopCommittee(answerArray) {
-      const tally = {};
-      answerArray.forEach(a => { if (!a) return; tally[a] = (tally[a] || 0) + 1; });
-      let top = null, max = -1;
-      for (const key in tally) {
-        if (tally[key] > max) { max = tally[key]; top = key; }
-      }
-      return top;
+    const params = getParams();
+    const name = params.name || "Player";
+    const answers = params.answers ? params.answers.split(',') : [];
+
+    const countMap = {};
+    answers.forEach(a => {
+      countMap[a] = (countMap[a] || 0) + 1;
+    });
+
+    let bestFit = "Finance";
+    if (answers.length > 0) {
+      bestFit = Object.keys(countMap).reduce((a, b) => countMap[a] > countMap[b] ? a : b);
     }
 
-    const params = getParams();
-    const rawName = params.name ? params.name.trim() : "Player";
-    const answers = params.answers ? params.answers.split(",") : [];
+    const resultCard = document.getElementById('result-card');
+    resultCard.innerHTML = `
+      <h2>Hi ${name}!</h2>
+      <p>You are best suited for the</p>
+      <h3>${bestFit} Committee 🎯</h3>
+      <img src="${images[bestFit]}" alt="${bestFit} Icon" />
+      <div class="button-container">
+        <button id="download-btn">Download & Share Result </button>
+        <button id="play-again-btn">Play Again</button>
+      </div>
+    `;
 
-    const committeeImages = {
-	  "Finance": "finance.png",
-	  "Management - Physicals": "physicals.png",
-	  "Management - Secretariat": "secretariat.png",
-	  "PR": "pr.png"
+    document.getElementById('download-btn').onclick = () => {
+      const link = document.createElement('a');
+      link.href = images[bestFit];
+      link.download = `super-mario-quiz-result-${bestFit.toLowerCase().replace(/ /g, '-')}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     };
 
-    const committee = findTopCommittee(answers);
-    const resultBox = document.getElementById("resultBox");
-
-    if (!committee || !committeeImages[committee]) {
-      resultBox.innerHTML = `
-        <h2>Oops!</h2>
-        <p>We couldn't determine a committee.<br> Please retake the quiz.</p>
-        <div class="buttons">
-          <button class="btn" onclick="location.href='index.html'">↩ Restart</button>
-        </div>
-      `;
-    } else {
-      resultBox.innerHTML = `
-        <h2>IT'S-A YOU, ${rawName.toUpperCase()}!</h2>
-        <p>Your Super Mario committee match is:</p>
-        <div class="result-image-box" id="resultCard">
-          <img src="${committeeImages[committee]}" alt="${committee} Committee" class="committee-img" />
-        </div>
-        <div class="buttons">
-          <button class="btn" onclick="location.href='index.html'">↩ PLAY AGAIN</button>
-          <button class="btn" id="downloadBtn">⬇ DOWNLOAD & SHARE</button>
-        </div>
-        <div id="statusMsg"></div>
-      `;
-      document.getElementById('downloadBtn').addEventListener('click', downloadResult);
-    }
-
-    async function downloadResult() {
-      const card = document.getElementById('resultCard');
-      const statusMsg = document.getElementById('statusMsg');
-      statusMsg.textContent = "Generating image...";
-      try {
-        const canvas = await html2canvas(card, { backgroundColor: null, scale: 2 });
-        const link = document.createElement('a');
-        link.download = 'ceu-rcy-committee-result.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        statusMsg.textContent = "Image downloaded ✓ Share it to Facebook and Instagram Stories";
-      } catch (e) {
-        console.error(e);
-        statusMsg.textContent = "Failed to generate image.";
-      }
-    }
+    document.getElementById('play-again-btn').onclick = () => {
+      window.location.href = "index.html";
+    };
   </script>
 </body>
 </html>
